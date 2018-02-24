@@ -3,7 +3,7 @@ import next from 'next';
 
 import config from '~/config';
 
-const dev = config.dev;
+const { dev } = config;
 
 const app = next({ dev, dir: './src' });
 const handler = app.getRequestHandler();
