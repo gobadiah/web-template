@@ -6,8 +6,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-emotion": "^9.0.1",
+    "babel-plugin-inline-import": "^2.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-inline-env-vars": "^1.0.1",
+    "babel-preset-env": "^1.6.1",
+    "emotion": "^9.0.2",
+    "express": "^4.16.2",
     "next": "^5.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-plugin-root-import": "^5.1.0"
   }
 }

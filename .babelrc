@@ -1,0 +1,22 @@
+{
+  "presets": ["next/babel", "env"],
+  "plugins": [
+    ["babel-plugin-root-import", {
+      "rootPathSuffix": "src"
+    }],
+    ["transform-inline-env-vars", {
+      "include": [
+        "NODE_ENV",
+      ]
+    }],
+    "emotion",
+    "transform-class-properties",
+    [
+      "inline-import",
+      {
+        "extensions": [".css"]
+      }
+    ]
+  ],
+  "ignore": []
+}
