@@ -3,6 +3,7 @@ import backend from 'i18next-xhr-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 export const availableLanguages = ['fr', 'en'];
+export const availableNamespaces = ['common', 'index'];
 
 const detection = {
   order: ['querystring', 'cookie', 'localStorage', 'navigator', 'header'],
@@ -18,6 +19,7 @@ const options = {
   fallbackLng: 'fr',
   load: 'languageOnly',
 
+  ns: availableNamespaces,
   defaultNS: 'common',
 
   debug: false,
@@ -45,14 +47,15 @@ if (process.browser) {
   };
 }
 
-if (!i18n.isInitialized) {
-  i18n.init(options);
-}
+i18n.init(options);
 
-i18n.getInitialProps = (req, nss = i18n.options.defautlNS) => {
+i18n.getInitialProps = (req, nss) => {
   let namespaces = nss;
-  if (typeof nss === 'string') {
-    namespaces = [nss];
+  if (typeof namespaces === 'undefined') {
+    namespaces = i18n.options.defaultNS;
+  }
+  if (typeof namespaces === 'string') {
+    namespaces = [namespaces];
   }
 
   req.i18n.toJSON = () => null;

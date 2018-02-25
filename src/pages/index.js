@@ -1,15 +1,22 @@
 import React from 'react';
 
+import { Page } from '~/components/base';
 import hoc from '~/hoc';
 
-const Index = (props, context) => {
-  console.log('props =', props);
-  console.log('context =', context);
-  return (
-    <div>
-      {'Hello world'}
-    </div>
-  );
-};
+import Language from '~/components/language';
+import SomePureComponent from '~/components/some-pure-component';
+
+class Index extends Page {
+  render() {
+    const { t } = this.props;
+    return (
+      <div>
+        <div>{t('index:Hello world')}</div>
+        <Language />
+        <SomePureComponent />
+      </div>
+    );
+  }
+}
 
 export default hoc()(Index);
