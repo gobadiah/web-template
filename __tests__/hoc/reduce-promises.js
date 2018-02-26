@@ -5,7 +5,8 @@ describe('reducePromises', () => {
     const a = new Promise(resolve => resolve({ a: 1 }));
     const b = new Promise(resolve => resolve({ b: 2 }));
     const c = args => new Promise(resolve => resolve(args));
-    return reducePromises({ c: 3 })([a, b, c])
+    const d = () => new Promise(resolve => resolve(undefined));
+    return reducePromises({ c: 3 })([a, b, c, d])
       .then((result) => {
         expect(result).toEqual({
           a: 1,

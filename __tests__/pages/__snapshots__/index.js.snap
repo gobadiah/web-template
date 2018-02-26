@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Index should match snapshot 1`] = `
+<div>
+  <div>
+    Hello world
+  </div>
+  <div>
+    <div>
+      <input
+        onClick={[Function]}
+        type="button"
+        value="Switch to french"
+      />
+    </div>
+    <div>
+      <input
+        onClick={[Function]}
+        type="button"
+        value="Switch to english"
+      />
+    </div>
+  </div>
+  <div>
+    This is a pure component
+  </div>
+</div>
+`;

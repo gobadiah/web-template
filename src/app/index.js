@@ -1,16 +1,37 @@
 import express from 'express';
 import next from 'next';
+import path from 'path';
 
-export default (dev) => {
-  const app = next({ dev, dir: './src' });
-  const handler = app.getRequestHandler();
+import fsBackend from 'i18next-node-fs-backend';
+import i18nextMiddleware, { LanguageDetector } from 'i18next-express-middleware';
 
-  return app.prepare()
-    .then(() => {
-      const server = express();
+import i18n, { availableLanguages, availableNamespaces } from '~/config/i18n';
 
-      server.use('*', handler);
+export default dev => new Promise(resolve => i18n.use(LanguageDetector)
+  .use(fsBackend)
+  .init({
+    preload: availableLanguages,
+    ns: availableNamespaces,
+    backend: {
+      loadPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.json'),
+      addPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.missing.json'),
+      jsonIndent: 2,
+    },
+  }, () => {
+    const app = next({ dev, dir: './src' });
+    const handler = app.getRequestHandler();
 
-      return server;
-    });
-};
+    app.prepare()
+      .then(() => {
+        const server = express();
+
+        server.use(i18nextMiddleware.handle(i18n));
+
+        server.post('/locales/add/:lng/:ns', i18nextMiddleware.missingKeyHandler(i18n));
+        server.use('/locales', express.static(path.join(__dirname, '../../locales')));
+
+        server.get('*', handler);
+
+        resolve(server);
+      });
+  }));
