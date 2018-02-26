@@ -7,10 +7,13 @@
     "build": "npm run clean && next build src && NODE_ENV=production babel --copy-files --ignore node_modules,dist -d dist .",
     "start": "NODE_ENV=production node dist/bin/server.js",
     "lint": "eslint --ignore-path .gitignore --max-warnings=0 .",
+    "lint:ci": "npm run lint --- --format junit -o reports/junit/js-lint-results.xml",
     "jest": "jest --config src/config/jest/index.js",
+    "jest:ci": "JEST_JUNIT_OUTPUT=reports/junit/js-test-results.xml npm run jest -- --testResultsProcessor=\"jest-junit\" --ci --runInBand",
     "jest:watch": "jest --watch --config src/config/jest/index.js",
     "jest:watch:coverage": "jest --watchAll --config src/config/jest/index.js --coverage",
-    "test": "npm run lint && npm run build && npm run jest"
+    "test": "npm run lint && npm run build && npm run jest",
+    "test:ci": "npm run lint:ci && npm run build && npm run jest:ci"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -51,6 +54,7 @@
     "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.2",
     "jest-emotion": "^9.0.0",
+    "jest-junit": "^3.6.0",
     "jsdom": "^11.6.2",
     "jsdom-global": "^3.0.2",
     "react-test-renderer": "^16.2.0",

@@ -23,4 +23,5 @@ module.exports = {
     '/node_modules/',
     '/dist/',
   ],
+  coverageDirectory: '<rootDir>/reports/coverage',
 };
