@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Link from 'next/link';
+
 import { Page } from '~/components/base';
 import hoc from '~/hoc';
 
@@ -16,6 +18,7 @@ class Index extends Page {
         <div className={s.helloWorld}>{t('index:Hello world')}</div>
         <Language />
         <SomePureComponent />
+        <Link href='/generate_error'><a>Generate error</a></Link>
       </div>
     );
   }

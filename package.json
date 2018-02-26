@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "babel-node bin/server.js",
     "clean": "rm -rf .next && rm -rf src/.next && rm -rf dist && rm -rf reports && rm -rf coverage",
-    "build": "npm run clean && next build src && NODE_ENV=production babel --copy-files --ignore node_modules,dist -d dist .",
+    "build": "npm run clean && next build src && NODE_ENV=production babel --copy-files --ignore node_modules,dist,__tests__ -d dist .",
     "start": "NODE_ENV=production node dist/bin/server.js",
     "lint": "eslint --ignore-path .gitignore --max-warnings=0 .",
     "lint:ci": "npm run lint --- --format junit -o reports/junit/js-lint-results.xml",
@@ -33,10 +33,13 @@
     "i18next-xhr-backend": "^1.5.1",
     "next": "^5.0.0",
     "prop-types": "^15.6.0",
+    "raven": "^2.4.1",
+    "raven-js": "^3.22.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-emotion": "^9.0.2",
-    "react-i18next": "^7.4.0"
+    "react-i18next": "^7.4.0",
+    "webpack": "^4.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",
@@ -61,5 +64,8 @@
     "jsdom-global": "^3.0.2",
     "react-test-renderer": "^16.2.0",
     "supertest": "^3.0.0"
+  },
+  "browser": {
+    "raven": "raven-js"
   }
 }

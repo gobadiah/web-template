@@ -25,4 +25,8 @@ module.exports = {
     '/dist/',
   ],
   coverageDirectory: '<rootDir>/reports/coverage',
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.js',
+    '!<rootDir>/src/.next/**',
+  ],
 };
