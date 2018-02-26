@@ -1,8 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Index should match snapshot 1`] = `
-<div>
-  <div>
+.emotion-0 {
+  color: green;
+}
+
+.emotion-1 {
+  background-color: hotpink;
+}
+
+<div
+  className="emotion-1"
+>
+  <div
+    className="emotion-0"
+  >
     Hello world
   </div>
   <div>

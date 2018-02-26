@@ -10,6 +10,7 @@ module.exports = {
   setupFiles: [
     '<rootDir>/src/config/jest/setup.js',
   ],
+  setupTestFrameworkScriptFile: '<rootDir>/src/config/jest/setup-test-framework.js',
   snapshotSerializers: [
     'enzyme-to-json/serializer',
   ],

@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "babel-node bin/server.js",
-    "clean": "rm -rf .next && rm -rf src/.next && rm -rf dist",
+    "clean": "rm -rf .next && rm -rf src/.next && rm -rf dist && rm -rf reports && rm -rf coverage",
     "build": "npm run clean && next build src && NODE_ENV=production babel --copy-files --ignore node_modules,dist -d dist .",
     "start": "NODE_ENV=production node dist/bin/server.js",
     "lint": "eslint --ignore-path .gitignore --max-warnings=0 .",
@@ -24,6 +24,7 @@
     "babel-plugin-transform-inline-env-vars": "^1.0.1",
     "babel-preset-env": "^1.6.1",
     "emotion": "^9.0.2",
+    "emotion-server": "^9.0.2",
     "express": "^4.16.2",
     "i18next": "^10.4.1",
     "i18next-browser-languagedetector": "^2.1.0",
@@ -34,6 +35,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-emotion": "^9.0.2",
     "react-i18next": "^7.4.0"
   },
   "devDependencies": {

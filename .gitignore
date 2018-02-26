@@ -13,6 +13,9 @@ dist
 # Jest reports
 reports
 
+# Failed translations
+*.missing.json
+
 ######
 # Source: https://github.com/github/gitignore/blob/master/Node.gitignore
 
