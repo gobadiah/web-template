@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import { defaultPropTypes, defaultProps } from '~/components';
 
 class Page extends React.PureComponent {
   getChildContext() {
@@ -13,19 +14,13 @@ class Page extends React.PureComponent {
 }
 
 Page.propTypes = {
-  i18n: PropTypes.shape().isRequired,
-  t: PropTypes.func.isRequired,
-  user: PropTypes.shape(),
+  ...defaultPropTypes,
 };
 
 Page.childContextTypes = {
-  i18n: PropTypes.shape().isRequired,
-  t: PropTypes.func.isRequired,
-  user: PropTypes.shape(),
+  ...defaultPropTypes,
 };
 
-Page.defaultProps = {
-  user: undefined,
-};
+Page.defaultProps = defaultProps;
 
 export default Page;

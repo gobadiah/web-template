@@ -2,7 +2,10 @@
 
 jest.mock('i18next-xhr-backend');
 
-beforeEach(() => { jest.resetModules(); });
+beforeEach(() => {
+  global.process.browser = false;
+  jest.resetModules();
+});
 
 describe('I18n', () => {
   describe('getInitialProps', () => {
@@ -74,5 +77,14 @@ describe('I18n', () => {
 
     const browserI18n = require('~/config/i18n').default;
     expect(browserI18n.options.caches).toEqual(['localStorage', 'cookie']);
+  });
+
+  it('should not call init if already initialized', () => {
+    jest.mock('i18next', () => ({
+      init: jest.fn(),
+      isInitialized: true,
+    }));
+    const i18n = require('~/config/i18n').default;
+    expect(i18n.init).not.toHaveBeenCalled();
   });
 });

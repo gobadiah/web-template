@@ -1,6 +1,35 @@
 version: 2
 jobs:
-  build:
+  build-web:
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-web-{{ .Branch }}-{{ .Revision }}
+            - v1-web-{{ .Branch }}
+            - v1-web
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/web.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+            PROJECT=template ./docker/build --cache-from=web
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/web.tar template/web
+      - save_cache:
+          key: v1-web-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/web.tar
+  test-web:
     docker:
       - image: circleci/node:9-stretch
     steps:
@@ -38,4 +67,10 @@ jobs:
       - store_test_results:
           path: reports/junit
       - store_artifacts:
-          path: reports/junit
+          path: reports
+workflows:
+  version: 2
+  build-and-test-web:
+    jobs:
+      - build-web
+      - test-web

@@ -47,7 +47,9 @@ if (process.browser) {
   };
 }
 
-i18n.init(options);
+if (!i18n.isInitialized) {
+  i18n.init(options);
+}
 
 i18n.getInitialProps = (req, nss) => {
   let namespaces = nss;
