@@ -1,4 +1,17 @@
 {
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "file-loader",
+          {
+            "publicPath": "/static/build",
+            "outputPath": "/dist/static/build"
+          }
+        ]
+      ]
+    }
+  },
   "presets": ["next/babel", "env"],
   "plugins": [
     ["babel-plugin-root-import", {
