@@ -19,10 +19,22 @@ jobs:
           paths:
             - node_modules
       - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
           name: Run tests
-          command: npm run test:ci
+          command: |
+            ./cc-test-reporter before-build
+            npm run test:ci
+            ./cc-test-reporter format-coverage -t lcov reports/coverage/lcov.info
+            ./cc-test-reporter upload-coverage
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - run:
+          name: Coveralls
+          command: cat reports/coverage/lcov.info | ./node_modules/.bin/coveralls
       - store_test_results:
           path: reports/junit
       - store_artifacts:
