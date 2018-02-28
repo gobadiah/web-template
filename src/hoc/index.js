@@ -5,8 +5,7 @@ import i18n from '~/config/i18n';
 import reducePromises from './reduce-promises';
 import getI18nInitialProps from './i18n';
 
-export default () => (page) => {
-  const namespace = page.name.toLowerCase();
+export default namespace => (page) => {
   const namespaces = ['common', namespace];
   // eslint-disable-next-line no-param-reassign
   page.getInitialProps = args => reducePromises({

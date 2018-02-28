@@ -24,4 +24,4 @@ class Index extends Page {
   }
 }
 
-export default hoc()(Index);
+export default hoc('index')(Index);
