@@ -6,6 +6,7 @@ import fsBackend from 'i18next-node-fs-backend';
 import i18nextMiddleware, { LanguageDetector } from 'i18next-express-middleware';
 
 import i18n, { availableLanguages, availableNamespaces } from '~/config/i18n';
+import routes from '~/routes';
 
 export default dev => new Promise(resolve => i18n.use(LanguageDetector)
   .use(fsBackend)
@@ -19,13 +20,15 @@ export default dev => new Promise(resolve => i18n.use(LanguageDetector)
     },
   }, () => {
     const app = next({ dev, dir: './src' });
-    const handler = app.getRequestHandler();
+    const handler = routes.getRequestHandler(app);
 
     app.prepare()
       .then(() => {
         const server = express();
 
         server.use(i18nextMiddleware.handle(i18n));
+
+        server.get('/api', (req, res) => res.status(200).send('Api endpoint').end());
 
         server.post('/locales/add/:lng/:ns', i18nextMiddleware.missingKeyHandler(i18n));
         server.use('/locales', express.static(path.join(__dirname, '../../locales')));

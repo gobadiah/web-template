@@ -47,7 +47,13 @@ exports[`Index should match snapshot 1`] = `
     This is a pure component
   </div>
   <a
-    href="/generate_error"
+    href="/some-page"
+    onClick={[Function]}
+  >
+    Some page
+  </a>
+  <a
+    href="/generate-error"
     onClick={[Function]}
   >
     Generate error

@@ -28,4 +28,8 @@ describe('Next config', () => {
       },
     });
   });
+
+  it('should not be using file system routing', () => {
+    expect(config.useFileSystemPublicRoutes).toBe(false);
+  });
 });

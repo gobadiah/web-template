@@ -1,4 +1,5 @@
 module.exports = {
+  useFileSystemPublicRoutes: false,
   webpack: (config, { isServer }) => {
     // eslint-disable-next-line no-param-reassign
     config.node = {

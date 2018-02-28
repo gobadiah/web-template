@@ -14,4 +14,10 @@ describe('App', () => {
       .get('/')
       .expect(200)
       .expect(/>Salut le monde !<\/div>/));
+
+  it('should response normally to non-next endpoint (e.g. /api)', () =>
+    request(server)
+      .get('/api')
+      .expect(200)
+      .expect('Api endpoint'));
 });

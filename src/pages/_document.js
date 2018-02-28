@@ -1,6 +1,7 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { extractCritical } from 'emotion-server';
+import nprogress from 'nprogress/nprogress.css';
 
 import Sentry from '~/tags/sentry';
 
@@ -26,6 +27,8 @@ export default class MyDocument extends Document {
         <Head>
           { // eslint-disable-next-line react/no-danger
           }<style dangerouslySetInnerHTML={{ __html: this.props.css }} />
+          { // eslint-disable-next-line react/no-danger
+          }<style dangerouslySetInnerHTML={{ __html: nprogress }} />
         </Head>
         <body>
           <Sentry />

@@ -14,6 +14,7 @@ import getRaven from '~/config/raven';
 
 beforeEach(() => {
   mockCaptureException.mockClear();
+  jest.dontMock('../../src/config');
   jest.resetModules();
 });
 
@@ -25,7 +26,7 @@ describe('Error', () => {
   });
 
   it('should record error to raven on server with dsn available', () => {
-    jest.setMock('../../src/config', { sentry: { DSN: true } });
+    jest.mock('../../src/config', () => ({ dev: false, sentry: { DSN: true } }));
     const ErrorPage = require('~/pages/_error').default;
     const err = new Error('test');
     const req = true;
@@ -37,7 +38,7 @@ describe('Error', () => {
   });
 
   it('should not record an error on server with dsn not available', () => {
-    jest.setMock('../../src/config', { sentry: { DSN: false } });
+    jest.mock('../../src/config', () => ({ dev: false, sentry: { DSN: false } }));
     const ErrorPage = require('~/pages/_error').default;
     const err = new Error('test');
     const req = true;
@@ -48,9 +49,21 @@ describe('Error', () => {
   });
 
   it('should not do anything on client', () => {
+    jest.mock('../../src/config', () => ({ dev: false, sentry: { DSN: true } }));
     const ErrorPage = require('~/pages/_error').default;
     const err = new Error('test');
     const req = undefined;
+    const result = ErrorPage.getInitialProps({ req, err });
+    expect(result).toEqual({});
+    const Raven = getRaven();
+    expect(Raven.captureException).not.toHaveBeenCalled();
+  });
+
+  it('should not do anything in dev mode', () => {
+    jest.mock('../../src/config', () => ({ dev: true, sentry: { DSN: true } }));
+    const ErrorPage = require('~/pages/_error').default;
+    const err = new Error('test');
+    const req = true;
     const result = ErrorPage.getInitialProps({ req, err });
     expect(result).toEqual({});
     const Raven = getRaven();
