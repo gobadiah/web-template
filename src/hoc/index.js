@@ -1,5 +1,7 @@
 import { translate } from 'react-i18next';
+import withRedux from 'next-redux-wrapper';
 
+import createStore from '~/config/redux';
 import i18n from '~/config/i18n';
 
 import reducePromises from './reduce-promises';
@@ -12,5 +14,5 @@ export default namespace => (page) => {
     namespaces,
     ...args,
   })([getI18nInitialProps]);
-  return translate(namespaces, { i18n, wait: process.browser })(page);
+  return withRedux(createStore)(translate(namespaces, { i18n, wait: process.browser })(page));
 };

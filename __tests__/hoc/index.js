@@ -1,9 +1,13 @@
 /* eslint-disable global-require */
 
-const mock = jest.fn(x => x);
+const mockWithRedux = jest.fn(x => x);
+
+jest.mock('next-redux-wrapper', () => jest.fn(() => mockWithRedux));
+
+const mockTranslate = jest.fn(x => x);
 
 jest.mock('react-i18next', () => ({
-  translate: jest.fn(() => mock),
+  translate: jest.fn(() => mockTranslate),
 }));
 
 beforeEach(() => {
@@ -50,8 +54,21 @@ describe('Hoc', () => {
       ['common', 'page'],
       { i18n, wait: undefined },
     );
-    expect(mock).toHaveBeenCalledTimes(1);
-    expect(mock).toHaveBeenCalledWith(Page);
+    expect(mockTranslate).toHaveBeenCalledTimes(1);
+    expect(mockTranslate).toHaveBeenCalledWith(Page);
+    expect(result).toBe(Page);
+  });
+
+  it('should call withRedux with our createStore', () => {
+    const withRedux = require('next-redux-wrapper');
+    const createStore = require('../../src/config/redux').default;
+    const Page = {};
+    const hoc = require('../../src/hoc').default;
+    const result = hoc('page')(Page);
+    expect(withRedux).toHaveBeenCalledTimes(1);
+    expect(withRedux).toHaveBeenCalledWith(createStore);
+    expect(mockWithRedux).toHaveBeenCalledTimes(1);
+    expect(mockWithRedux).toHaveBeenCalledWith(Page);
     expect(result).toBe(Page);
   });
 });
