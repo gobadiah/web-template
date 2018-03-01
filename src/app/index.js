@@ -7,6 +7,7 @@ import i18nextMiddleware, { LanguageDetector } from 'i18next-express-middleware'
 
 import i18n, { availableLanguages, availableNamespaces } from '~/config/i18n';
 import routes from '~/routes';
+import passport from '~/config/passport';
 
 export default dev => new Promise(resolve => i18n.use(LanguageDetector)
   .use(fsBackend)
@@ -27,6 +28,8 @@ export default dev => new Promise(resolve => i18n.use(LanguageDetector)
         const server = express();
 
         server.use(i18nextMiddleware.handle(i18n));
+
+        passport(server);
 
         server.get('/api', (req, res) => res.status(200).send('Api endpoint').end());
 
