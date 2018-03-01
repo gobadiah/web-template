@@ -3,6 +3,9 @@ const path = require('path');
 module.exports = {
   rootDir: path.join(__dirname, '../../..'),
   testEnvironment: 'node',
+  modulePathIgnorePatterns: [
+    '<rootDir>/dist',
+  ],
   testPathIgnorePatterns: [
     '/node_modules/',
     '/dist/',

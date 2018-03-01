@@ -5,28 +5,7 @@ describe('Next config', () => {
     const webpack = { module: { rules: [] } };
     const isServer = true;
     const result = config.webpack(webpack, { isServer });
-    expect(result).toEqual({
-      node: {
-        fs: 'empty',
-      },
-      module: {
-        rules: [
-          {
-            test: /\.(png|jpg|gif)$/,
-            use: [
-              {
-                loader: 'file-loader',
-                options: {
-                  outputPath: '../static/build',
-                  publicPath: '/static/build/',
-                  emitFile: !isServer,
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
+    expect(result).toMatchSnapshot();
   });
 
   it('should not be using file system routing', () => {
