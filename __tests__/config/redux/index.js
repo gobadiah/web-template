@@ -21,6 +21,11 @@ describe('createStore', () => {
       applyMiddleware: mockApplyMiddleware,
     }));
 
+    const mockReducer = 'reducer';
+    jest.mock('redux-json-api', () => ({
+      reducer: mockReducer,
+    }));
+
     const mockComposeWithDevTools = jest.fn(x => x);
 
     jest.mock('redux-devtools-extension', () => ({
@@ -39,7 +44,10 @@ describe('createStore', () => {
     expect(mockComposeWithDevTools).toHaveBeenCalledTimes(1);
     expect(mockComposeWithDevTools).toHaveBeenCalledWith('thunkMiddleware');
 
-    const reducers = { auth: 'auth' };
+    const reducers = {
+      auth: 'auth',
+      api: mockReducer,
+    };
 
     expect(mockCombineReducers).toHaveBeenCalledTimes(1);
     expect(mockCombineReducers).toHaveBeenCalledWith(reducers);

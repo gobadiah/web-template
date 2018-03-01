@@ -2,6 +2,7 @@ import express from 'express';
 import next from 'next';
 import path from 'path';
 
+import favicon from 'serve-favicon';
 import fsBackend from 'i18next-node-fs-backend';
 import i18nextMiddleware, { LanguageDetector } from 'i18next-express-middleware';
 
@@ -26,6 +27,8 @@ export default dev => new Promise(resolve => i18n.use(LanguageDetector)
     app.prepare()
       .then(() => {
         const server = express();
+
+        server.use(favicon(path.join(__dirname, '../static', 'favicon.ico')));
 
         server.use(i18nextMiddleware.handle(i18n));
 
