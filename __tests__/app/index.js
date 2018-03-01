@@ -51,6 +51,10 @@ describe('App unit', () => {
 
     jest.mock('i18next-express-middleware');
 
+    jest.mock('serve-favicon');
+    const favicon = require('serve-favicon');
+    favicon.mockImplementation(() => 'favicon');
+
     const dev = false;
 
     const app = require('~/app').default;
@@ -109,10 +113,18 @@ describe('App unit', () => {
     expect(next).toHaveBeenCalledTimes(1);
     expect(next).toHaveBeenCalledWith({ dev, dir: './src' });
 
+    expect(favicon).toHaveBeenCalledTimes(1);
+    expect(favicon).toHaveBeenCalledWith(path.join(
+      __dirname,
+      '../../src/static',
+      'favicon.ico',
+    ));
+
     expect(i18nextMiddleware.handle).toHaveBeenCalledTimes(1);
     expect(i18nextMiddleware.handle).toHaveBeenCalledWith(i18n);
 
-    expect(mockServer.use).toHaveBeenCalledTimes(2);
+    expect(mockServer.use).toHaveBeenCalledTimes(3);
+    expect(mockServer.use).toHaveBeenCalledWith('favicon');
     expect(mockServer.use).toHaveBeenCalledWith(handle);
     expect(mockServer.use).toHaveBeenCalledWith('/locales', mockStatic);
 
