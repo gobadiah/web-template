@@ -92,8 +92,8 @@ describe('App unit', () => {
       getRequestHandler: jest.fn(() => mockHandler),
     }));
 
-    const passport = require('../../src/config/passport').default;
-    jest.mock('../../src/config/passport');
+    const passport = require('../../src/passport').default;
+    jest.mock('../../src/passport');
     passport.mockImplementation(() => {});
 
     const express = require('express');

@@ -3,7 +3,7 @@ import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import axios from 'axios';
 
-import config from './index';
+import config from './config';
 
 const google = config.google.clientId && config.google.clientSecret;
 const facebook = config.facebook.clientId && config.facebook.clientSecret;

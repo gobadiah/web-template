@@ -39,7 +39,7 @@ beforeEach(() => {
 
 describe('Passport', () => {
   it('should do nothing when neither google of facebook are configured', () => {
-    const passport = require('~/config/passport').default;
+    const passport = require('~/passport').default;
     const server = {};
     passport(server);
 
@@ -55,8 +55,8 @@ describe('Passport', () => {
     global.process.env.GOOGLE_CLIENT_ID = 'google-client-id';
     global.process.env.GOOGLE_CLIENT_SECRET = 'google-client-secret';
 
-    const passport = require('~/config/passport').default;
-    const config = require('~/config').default;
+    const passport = require('~/passport').default;
+    const config = require('~/passport/config').default;
 
     expect(mockFacebook).not.toHaveBeenCalled();
 
@@ -131,7 +131,7 @@ describe('Passport', () => {
     global.process.env.GOOGLE_CLIENT_SECRET = 'google-client-secret';
 
     // eslint-disable-next-line no-unused-expressions
-    require('~/config/passport').default;
+    require('~/passport').default;
 
     const func = mockGoogle.mock.calls[0][1];
     const done = jest.fn();
@@ -161,8 +161,8 @@ describe('Passport', () => {
     global.process.env.FACEBOOK_CLIENT_ID = 'facebook-client-id';
     global.process.env.FACEBOOK_CLIENT_SECRET = 'facebook-client-secret';
 
-    const passport = require('~/config/passport').default;
-    const config = require('~/config').default;
+    const passport = require('~/passport').default;
+    const config = require('~/passport/config').default;
 
     expect(mockGoogle).not.toHaveBeenCalled();
 
@@ -232,7 +232,7 @@ describe('Passport', () => {
     global.process.env.FACEBOOK_CLIENT_SECRET = 'facebook-client-secret';
 
     // eslint-disable-next-line no-unused-expressions
-    require('~/config/passport').default;
+    require('~/passport').default;
 
     const func = mockFacebook.mock.calls[0][1];
     const done = jest.fn();

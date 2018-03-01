@@ -8,7 +8,8 @@ import i18nextMiddleware, { LanguageDetector } from 'i18next-express-middleware'
 
 import i18n, { availableLanguages, availableNamespaces } from '~/config/i18n';
 import routes from '~/routes';
-import passport from '~/config/passport';
+
+import passport from '~/passport';
 
 export default dev => new Promise(resolve => i18n.use(LanguageDetector)
   .use(fsBackend)
