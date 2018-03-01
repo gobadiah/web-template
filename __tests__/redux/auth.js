@@ -2,7 +2,7 @@
 
 import { Map } from 'immutable';
 
-import { defaultState } from '~/config/redux/auth';
+import { defaultState } from '~/redux/auth';
 
 const someAuthState = Map({ userId: 8 });
 
@@ -19,7 +19,7 @@ describe('Auth reducer', () => {
       createActions: jest.fn(x => x),
     }));
     // eslint-disable-next-line no-unused-expressions
-    require('../../../src/config/redux/auth').default;
+    require('~/redux/auth').default;
     expect(mockHandleAction).toHaveBeenCalledTimes(1);
     expect(mockHandleAction.mock.calls[0][0]).toEqual(99);
     const arg = mockHandleAction.mock.calls[0][1];
@@ -30,14 +30,14 @@ describe('Auth reducer', () => {
   });
 
   it('should have a default state', () => {
-    const auth = require('../../../src/config/redux/auth').default;
+    const auth = require('~/redux/auth').default;
     const initialState = auth(undefined, { type: 'notype' });
     expect(initialState.equals(defaultState)).toBe(true);
   });
 
   it('should handle signin action', () => {
-    const auth = require('../../../src/config/redux/auth').default;
-    const { signin } = require('../../../src/config/redux/auth');
+    const auth = require('~/redux/auth').default;
+    const { signin } = require('~/redux/auth');
     const action = signin(5);
     const state = auth(undefined, action);
     expect(state.equals(Map({
@@ -46,8 +46,8 @@ describe('Auth reducer', () => {
   });
 
   it('should handle signout action', () => {
-    const auth = require('../../../src/config/redux/auth').default;
-    const { signout } = require('../../../src/config/redux/auth');
+    const auth = require('~/redux/auth').default;
+    const { signout } = require('~/redux/auth');
     const state = auth(someAuthState, signout());
     expect(state.equals(defaultState)).toBe(true);
   });

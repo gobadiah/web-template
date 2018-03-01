@@ -9,7 +9,7 @@ beforeEach(() => {
 describe('createStore', () => {
   it('should call redux createStore and combineReducers', () => {
     jest.mock('redux-thunk', () => 'thunkMiddleware');
-    jest.mock('../../../src/config/redux/auth', () => 'auth');
+    jest.mock('../../src/redux/auth', () => 'auth');
 
     const mockCreateStore = jest.fn();
     const mockCombineReducers = jest.fn(x => x);
@@ -32,7 +32,7 @@ describe('createStore', () => {
       composeWithDevTools: mockComposeWithDevTools,
     }));
 
-    const createStore = require('~/config/redux').default;
+    const createStore = require('~/redux').default;
     expect(mockCreateStore).not.toHaveBeenCalled();
     const state = { auth: Map({ userId: 9 }) };
 
@@ -61,12 +61,12 @@ describe('createStore', () => {
     jest.dontMock('redux-thunk');
     jest.dontMock('redux');
     jest.dontMock('redux-devtools-extension');
-    jest.dontMock('../../../src/config/redux/auth');
+    jest.dontMock('../../src/redux/auth');
   });
 
   it('should return a store with default state given an undefined state', () => {
-    const createStore = require('~/config/redux').default;
-    const defaultAuthState = require('~/config/redux/auth').defaultState;
+    const createStore = require('~/redux').default;
+    const defaultAuthState = require('~/redux/auth').defaultState;
     const state = undefined;
     const store = createStore(state);
     expect(Object.keys(store.getState())).toEqual(['auth']);
@@ -74,7 +74,7 @@ describe('createStore', () => {
   });
 
   it('should return a store with given state', () => {
-    const createStore = require('~/config/redux').default;
+    const createStore = require('~/redux').default;
     const state = {
       auth: Map({
         userId: 7,
@@ -85,11 +85,11 @@ describe('createStore', () => {
   });
 
   it('should change the state after dispatching a simple action', () => {
-    const createStore = require('~/config/redux').default;
-    const defaultAuthState = require('~/config/redux/auth').defaultState;
+    const createStore = require('~/redux').default;
+    const defaultAuthState = require('~/redux/auth').defaultState;
     const state = undefined;
     const store = createStore(state);
-    const { signin, signout } = require('~/config/redux/auth');
+    const { signin, signout } = require('~/redux/auth');
     store.dispatch(signin(8));
     expect(Object.keys(store.getState())).toEqual(['auth']);
     expect(store.getState().auth.equals(Map({

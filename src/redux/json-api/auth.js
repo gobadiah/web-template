@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { hydrateStore } from 'redux-json-api';
-import { signin as signinAction } from '~/config/redux';
+import { signin as signinAction } from '~/redux/auth';
 
 import config from '~/config';
 

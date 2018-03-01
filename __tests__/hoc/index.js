@@ -61,7 +61,7 @@ describe('Hoc', () => {
 
   it('should call withRedux with our createStore', () => {
     const withRedux = require('next-redux-wrapper');
-    const createStore = require('../../src/config/redux').default;
+    const createStore = require('~/redux').default;
     const Page = {};
     const hoc = require('../../src/hoc').default;
     const result = hoc('page')(Page);

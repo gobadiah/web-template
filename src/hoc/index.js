@@ -1,7 +1,6 @@
 import { translate } from 'react-i18next';
-import withRedux from 'next-redux-wrapper';
 
-import createStore from '~/config/redux';
+import createStore, { withRedux } from '~/redux';
 import i18n from '~/config/i18n';
 
 import reducePromises from './reduce-promises';

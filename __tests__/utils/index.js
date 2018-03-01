@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 
-import store, { user } from '~/config/redux/__fixtures__/store';
+import store, { user } from '~/redux/__fixtures__/store';
 
 let handleUnauthorized;
 

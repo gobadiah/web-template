@@ -3,7 +3,7 @@ import { setAxiosConfig, readEndpoint } from 'redux-json-api';
 import denormalizer from 'json-api-denormalizer';
 
 import config from '~/config';
-import { signin } from '~/config/redux';
+import { signin } from '~/redux/auth';
 import { handleUnauthorized, currentUser } from '~/utils';
 
 export const setupApi = ({ req, store }) => {

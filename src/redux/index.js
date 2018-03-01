@@ -14,4 +14,6 @@ const reducer = combineReducers({
 
 export default state => createStore(reducer, state, middlewares);
 
-export * from './auth';
+export * from './json-api';
+
+export { default as withRedux } from 'next-redux-wrapper';
