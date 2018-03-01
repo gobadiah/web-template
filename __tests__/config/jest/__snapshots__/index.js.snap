@@ -20,7 +20,6 @@ Object {
   "modulePathIgnorePatterns": Array [
     "<rootDir>/dist",
   ],
-  "rootDir": "/Users/michaeljourno/workspace/web-template",
   "setupFiles": Array [
     "<rootDir>/src/config/jest/setup.js",
   ],
