@@ -1,10 +1,29 @@
 import _ from 'lodash';
 import { setAxiosConfig, readEndpoint } from 'redux-json-api';
 import denormalizer from 'json-api-denormalizer';
+import { Router } from '~/routes';
 
 import config from '~/config';
 import { signin } from '~/redux/auth';
-import { handleUnauthorized, currentUser } from '~/utils';
+import { currentUser } from '~/redux';
+
+export const handleUnauthorized = ({
+  res,
+  asPath,
+  err,
+  needsLogin,
+}) => {
+  if (_.get(err, 'response.status') !== 401) {
+    throw err;
+  }
+  if (needsLogin) {
+    if (res) {
+      res.redirect(302, `/signin?returnUrl=${asPath}`);
+    } else {
+      Router.replace(`/signin?returnUrl=${asPath}`);
+    }
+  }
+};
 
 export const setupApi = ({ req, store }) => {
   store.dispatch(setAxiosConfig(config.axios({ req })));

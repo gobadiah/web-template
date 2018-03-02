@@ -10,6 +10,8 @@ jest.mock('redux-json-api', () => ({
   readEndpoint: mockReadEndpoint,
 }));
 
+let handleUnauthorized;
+
 beforeEach(() => {
   jest.clearAllMocks();
   jest.resetModules();
@@ -82,9 +84,6 @@ describe('HOC api', () => {
 
   it('should call handleUnauthorized if axios throws', async () => {
     const { getMe } = require('~/redux');
-    const { handleUnauthorized } = require('~/utils');
-
-    jest.mock('../../../src/utils');
 
     const res = true;
     const req = {
@@ -111,22 +110,14 @@ describe('HOC api', () => {
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(readEndpoint);
-
-    expect(handleUnauthorized).toHaveBeenCalledTimes(1);
-    expect(handleUnauthorized).toHaveBeenCalledWith({
-      err,
-      res,
-      asPath,
-      needsLogin,
-    });
   });
 
   it('should call currentUser if there is no access_token', () => {
     const { getMe } = require('~/redux');
-    const { currentUser } = require('~/utils');
+    const { currentUser } = require('~/redux');
     const store = require('~/redux/__fixtures__/store').default;
     const { user } = require('~/redux/__fixtures__/store');
-    jest.mock('../../../src/utils');
+    jest.mock('../../../src/redux/selectors');
 
     expect(getMe({
       store,
@@ -139,5 +130,74 @@ describe('HOC api', () => {
     expect(store.getState).toHaveBeenCalledTimes(1);
     expect(currentUser).toHaveBeenCalledTimes(1);
     expect(currentUser).toHaveBeenCalledWith(store.getState());
+  });
+});
+
+describe('handleUnauthorized', () => {
+  it('should redirect on server for status 401 when needsLogin', () => {
+    ({ handleUnauthorized } = require('~/redux'));
+    const res = {
+      redirect: jest.fn(),
+    };
+    const asPath = '/some-page';
+    handleUnauthorized({
+      res,
+      asPath,
+      needsLogin: true,
+      err: {
+        response: {
+          status: 401,
+        },
+      },
+    });
+
+    expect(res.redirect).toHaveBeenCalledTimes(1);
+    expect(res.redirect).toHaveBeenCalledWith(302, `/signin?returnUrl=${asPath}`);
+  });
+
+  it('should redirect on client for status 401 when needsLogin', () => {
+    jest.mock('../../../src/routes');
+    ({ handleUnauthorized } = require('~/redux'));
+    const { Router } = require('~/routes');
+
+    const asPath = '/some-page';
+    handleUnauthorized({
+      asPath,
+      needsLogin: true,
+      err: {
+        response: {
+          status: 401,
+        },
+      },
+    });
+
+    expect(Router.replace).toHaveBeenCalledTimes(1);
+    expect(Router.replace).toHaveBeenCalledWith(`/signin?returnUrl=${asPath}`);
+  });
+
+  it('should do nothing for 401 error an needsLogin false', () => {
+    jest.mock('../../../src/routes');
+    ({ handleUnauthorized } = require('~/redux'));
+    const { Router } = require('~/routes');
+    const res = {
+      redirect: jest.fn(),
+    };
+    handleUnauthorized({
+      err: {
+        response: {
+          status: 401,
+        },
+      },
+      res,
+      needsLogin: false,
+    });
+    expect(res.redirect).not.toHaveBeenCalled();
+    expect(Router.replace).not.toHaveBeenCalled();
+  });
+
+  it('should rethrow if this is not a 401 http error', () => {
+    const err = new Error('oups');
+    ({ handleUnauthorized } = require('~/redux'));
+    expect(() => handleUnauthorized({ err })).toThrow(err);
   });
 });
